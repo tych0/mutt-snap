@@ -1,0 +1,89 @@
+name: mutt
+version: "1.7.0"
+summary: text-based mailreader supporting MIME, GPG, PGP and threading
+description: |
+ Mutt is a sophisticated text-based Mail User Agent. Some highlights:
+ .
+  * MIME support (including RFC1522 encoding/decoding of 8-bit message
+    headers and UTF-8 support).
+  * PGP/MIME support (RFC 2015).
+  * Advanced IMAP client supporting SSL encryption and SASL authentication.
+  * POP3 support.
+  * ESMTP support.
+  * Message threading (both strict and non-strict).
+  * Keybindings are configurable, default keybindings are much like ELM;
+    Mush and PINE-like ones are provided as examples.
+  * Handles MMDF, MH and Maildir in addition to regular mbox format.
+  * Messages may be (indefinitely) postponed.
+  * Colour support.
+  * Highly configurable through easy but powerful rc file.
+  .
+  This package is built with the NeoMutt patchset, which includes a number of
+  additional features compared to the stock Mutt. Among them are:
+  * Support for compressed mailboxes.
+  * Support for the NNTP (Usenet) protocol.
+  * Support for the notmuch mail indexer.
+  * An optional Sidebar.
+  * Various UI, security and performance fixes.
+confinement: strict
+
+apps:
+  mutt:
+    command: mutt
+    plugs: [network-bind, home]
+
+parts:
+  mutt:
+    plugin: autotools
+    source: https://dev.mutt.org/hg/mutt
+    source-type: mercurial
+    configflags:
+      - --enable-compressed
+      - --enable-fnctl
+      - --enable-debug
+      - --enable-hcache
+      - --enable-gpgme
+      - --enable-imap
+      - --enable-smtp
+      - --enable-pop
+      - --enable-sidebar
+      - --enable-nntp
+      - --enable-notmuch
+      - --with-curses
+      - --with-gnutls
+      - --with-gss
+      - --with-idn
+      - --with-mixmaster
+      - --with-sasl
+      - --without-gdbm
+      - --without-bdb
+      - --without-qdbm
+    build-packages:
+      - docbook-xml
+      - docbook-xsl
+      - gawk
+      - gettext
+      - libgnutls28-dev
+      - libgpgme11-dev
+      - libidn11-dev
+      - libkrb5-dev
+      - libnotmuch-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libsasl2-dev
+      - libtokyocabinet-dev
+      - pkg-config
+      - w3m
+      - xsltproc
+      - zlib1g-dev
+    stage-packages:
+      - libgnutls30
+      - libgpgme11
+      - libgssapi-krb5-2
+      - libidn11
+      - libncursesw5
+      - libsasl2-2
+      - libtinfo5
+    snap:
+      - bin/mutt
+      - usr/lib/*
